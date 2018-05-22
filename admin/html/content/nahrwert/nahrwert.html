@@ -1,0 +1,157 @@
+
+<div class="frame-wrapper default">
+	<div class="frame-head cursor-pointer" id="nahrwertlabel">
+		<label class="cursor-pointer" >Nahrwerte</label>
+		<span class="collapser pull-right"><i class="fa fa-plus-square-o"></i></span>
+	</div>
+	<div id="nahrwert" class="frame-content grid" style="display: none;">
+	{load_language_text section="nahrwert"}
+		<div id="nahrwert_code_wrapper" class="span12 frame-content" data-gx-controller="nahrwert/nahrwert">
+			<table>
+				<thead>
+					<tr>
+						<th>Portionsgr&ouml;e</th>
+						<th>Portionen gesamt</th>
+					</tr>
+				</thead>
+				<tbody>				
+					<tr style="height:15px;">
+						<td>
+							<input style="width:45px;" type="text" name="nutriton_serving_size" id="nutriton_serving_size" value="{$content_data.nutriton_serving_size}"/>
+						</td>
+						<td>
+							<input style="width:45px;" type="text" name="nutriton_servings" id="nutriton_servings" value="{$content_data.nutriton_servings}"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<thead>
+					<tr>
+						<th>Energie (kcal)</th>
+						<th>Energie (kj)</th>
+						<th>Protein</th>
+						<th>Kohlenhydrate</th>
+						<th>-davon Zucker</th>
+						<th>Fett</th>
+						<th>- davon gesättigte</th>
+						<th>Ballaststoffe</th>
+						<th>Salz</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="height:15px;">
+					   <td>
+							<input style="width:45px;" type="text" name="nutriton_energie" id="nutriton_energie" value="{$content_data.nutriton_energie}"/>
+						</td>
+						   <td>
+							<input style="width:45px;" type="text" name="nutriton_energie_kj" id="nutriton_energie_kj" value="{$content_data.nutriton_energie_kj}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_protein" id="nutriton_protein" value="{$content_data.nutriton_protein}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_kh" id="nutriton_kh" value="{$content_data.nutriton_kh}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_kh_zucker" id="nutriton_kh_zucker" value="{$content_data.nutriton_kh_zucker}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_f" id="nutriton_f" value="{$content_data.nutriton_f}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_f_gesaetigt" id="nutriton_f_gesaetigt" value="{$content_data.nutriton_f_gesaetigt}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_ballast" id="nutriton_ballast" value="{$content_data.nutriton_ballast}"/>
+						</td>
+								   <td>
+							<input style="width:45px;" type="text" name="nutriton_salz" id="nutriton_salz" value="{$content_data.nutriton_salz}"/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=7>&nbsp;</td>
+						<td>
+							<span class="btn cursor-pointer add_nahrwertstandard"
+							   data-nahrwertstandard-products_id="{$content_data.products_id}"
+							   data-nahrwertstandard-page_token="{$content_data.page_token}">
+								{$txt.TXT_PARCEL_TRACKING_SENDBUTTON}
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<thead>
+					<tr>
+						<th>{$txt.TXT_NAHRWERT_INHALTSSTOFF|escape}</th>
+						<th>Menge</th>
+						<th>{$txt.TXT_EINHEIT|escape}</th>
+						<th>{$txt.TXT_PARCEL_SHIPPING_COST|escape}</th>
+						<th>Reihenfolge</th>
+						<th>einger&uuml;t</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr  id="nahrwerte">
+						<td colspan="7">
+							<table >
+							{foreach item=parcel from=$content_data.nutrition_array}
+								<tr>
+									<td style="width:120px"><a href="{$parcel.nutrition_id|escape}" target="_blank">{$parcel.nahrstoffde}{$parcel.text}({$parcel.nutrition_id|escape})</a></td>
+									<td>portion{$parcel.mengeportion|escape}</td>
+									<td style="width:120px">Einheit{$parcel.getFormatedShippingCost}</td>
+									 <td>%</td>
+									 
+									 <td>sortorder{$parcel.sort_order}</td>
+									 <td>eingerückt{$parcel.eingerueckt}</td>
+									<td>
+										<span class="btn-delete cursor-pointer delete_nahrwert"
+											  data-nahrwert_modal_layer-action="delete_nahrwert_code"
+											  data-nahrwert_modal_layer-products_id="{$parcel.products_id}"
+											  data-nahrwert_modal_layer-id="{$parcel.id}"
+											  data-nahrwert_modal_layer-page_token="{$content_data.page_token}">
+											<i class="fa fa-trash-o"></i>
+										</span>
+									</td>
+								</tr>
+							
+							{/foreach}
+							</table>
+					<tr>
+						<td>
+							<select style="width:120px;" name="nutrition_dropdown" id="nutrition_dropdown"> {html_options options=$content_data.nutrition_options
+								selected=$content_data.nutrition_options_selected} </select><br/>
+							<input type="text" name="nutrition_text" id="nutrition_text"/>
+						</td>
+						<td>
+							<input type="text" name="nutrition_quantity" id="nutrition_quantity"/>
+						</td>
+						<td>
+							  <select style="width:120px;" name="nutrition_einheit" id="nutrition_einheit"> {html_options options=$content_data.einheit_options
+								selected=$content_data.einheit_options_selected} </select>
+						</td>			
+						<td>
+							<input style="width:45px;" type="text" name="nutriton_per_day" id="nutriton_per_day"/>
+						</td>
+						 <td>
+							<input style="width:45px;" type="text" name="nutrition_label_order" id="nutrition_label_order"/>
+						</td>
+									 <td>
+							<input style="width:45px;" type="text" name="nutrition_eingerueckt" id="nutrition_eingerueckt"/>
+						</td>
+						<td>
+							<span class="btn cursor-pointer add_nahrwert"
+							   data-nahrwert-products_id="{$content_data.products_id}"
+							   data-nahrwert-page_token="{$content_data.page_token}">
+								{$txt.TXT_PARCEL_TRACKING_SENDBUTTON}
+							</span>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
